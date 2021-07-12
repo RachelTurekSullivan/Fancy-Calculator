@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fancy_Calculator
+namespace CalculatorCore
 {
     public class DataService
     {
 
         CalculatorService calculator = new CalculatorService();
 
-        public string[] GetInput(float prevExpression)
+        public string[] VerifyInput(float prevExpression, string calcInput)
         {
-            Console.WriteLine("Enter an binomial expression to evaluate:");
-            string input = Console.ReadLine();
+            //Console.WriteLine("Enter an binomial expression to evaluate:");
+            string input = calcInput;
 
             if (input.ToLower().Equals("exit"))
             {
@@ -25,11 +25,12 @@ namespace Fancy_Calculator
                 return new string[] { input.ToLower() };
             }
 
-            while (VerifyExpression(input) == false)
+            if (VerifyExpression(input) == false)
             {
-                Console.WriteLine("The expression " + input + " was not valid. Please enter a valid binomial expression in the form '6.9 + 5': ");
-                input = Console.ReadLine();
+               return new string[] { "error", "The expression " + input + " was not valid. Please enter a valid binomial expression in the form '6.9 + 5': "};
+                
             }
+
             string[] verifiedInput;
             verifiedInput = ExpressionParser(input);
 

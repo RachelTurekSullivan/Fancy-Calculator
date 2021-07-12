@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fancy_Calculator
 {
-    public class Calculator
+    public class CalculatorService
     {
         public float Add(float num1, float num2)
         {
