@@ -11,7 +11,7 @@ namespace Fancy_Calculator
 
         Calculator calculator = new Calculator();
 
-        public string[] GetInput()
+        public string[] GetInput(float prevExpression)
         {
             Console.WriteLine("Enter an binomial expression to evaluate:");
             string input = Console.ReadLine();
@@ -20,14 +20,31 @@ namespace Fancy_Calculator
             {
                 return new string[] {input.ToLower()};
             }
+            if (input.ToLower().Equals("history"))
+            {
+                return new string[] { input.ToLower() };
+            }
 
             while (VerifyExpression(input) == false)
             {
-                Console.WriteLine("The expression " + input + " was not valid. Please enter a valid expression: ");
+                Console.WriteLine("The expression " + input + " was not valid. Please enter a valid binomial expression in the form '6.9 + 5': ");
                 input = Console.ReadLine();
             }
             string[] verifiedInput;
             verifiedInput = ExpressionParser(input);
+
+            //this will only happen if the first input is an operator and the second is a number becuase it's been verified already
+            if (verifiedInput.Length == 2)
+            {
+                var tempList = new List<String>();
+
+                tempList.Add(prevExpression.ToString());
+                tempList.Add(verifiedInput[0]);
+                tempList.Add(verifiedInput[1]);
+                verifiedInput = tempList.ToArray();
+            }
+
+
             return verifiedInput;
         }
 
@@ -79,7 +96,16 @@ namespace Fancy_Calculator
                     VerifyNumericalInput(expression[2]) == false
                 )
             {
-                return false;
+                //if the operation is using the previous result as num1
+                if (IsOperation(expression[0]) && VerifyNumericalInput(expression[1]))
+                {
+                    return true;
+                }
+
+                else 
+                {
+                    return false; 
+                }
             }
             //checking for dividing by 0
             if(expression[1].Equals("/")&& !calculator.CanDivideBy(float.Parse(expression[2])))
