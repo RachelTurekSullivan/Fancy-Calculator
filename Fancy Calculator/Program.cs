@@ -7,23 +7,28 @@ namespace Fancy_Calculator
        
         static void Main(string[] args)
         {
-
-            float sum;
-            float num1;
-            float num2;
+            bool run = true;
             DataService dataService = new DataService();
 
             Console.WriteLine("A Console Calculator");
-            Console.WriteLine("Enter a number: ");
 
-           num1 = dataService.GetInput();
 
-            Console.WriteLine("Enter a second number, and I will add it to the first: ");
+            while (run)
+            {
+                string[] input = dataService.GetInput();
 
-            num2 = dataService.GetInput();
+                if (input[0].Equals("exit"))
+                {
+                    run = false;
+                }
+                else
+                {
+                    var result = dataService.Calculate(input);
 
-            sum = num1+num2;
-            Console.WriteLine("Result: " + sum);
+                    Console.WriteLine("Result: " + result);
+                }
+                
+            }
         }
     }
 }

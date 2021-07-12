@@ -8,24 +8,31 @@ namespace Fancy_Calculator
 {
     public class DataService
     {
-        public float GetInput()
+
+        Calculator calculator = new Calculator();
+
+        public string[] GetInput()
         {
-
+            Console.WriteLine("Enter an binomial expression to evaluate:");
             string input = Console.ReadLine();
-            float verifiedInput;
 
-            while (VerifyNumericalInput(input) == false)
+            if (input.ToLower().Equals("exit"))
             {
-                Console.WriteLine("The value " + input + " was not a valid number. Please enter a number: ");
-                input = Console.ReadLine();
+                return new string[] {input.ToLower()};
             }
 
-            verifiedInput = float.Parse(input);
-
+            while (VerifyExpression(input) == false)
+            {
+                Console.WriteLine("The expression " + input + " was not valid. Please enter a valid expression: ");
+                input = Console.ReadLine();
+            }
+            string[] verifiedInput;
+            verifiedInput = ExpressionParser(input);
             return verifiedInput;
-
         }
-        public bool VerifyNumericalInput(string input)
+
+
+        private bool VerifyNumericalInput(string input)
         {
             if (input.Equals('0'))
             {
@@ -41,6 +48,73 @@ namespace Fancy_Calculator
                 else { return false; }
             }
         }
+
+        private string[] ExpressionParser(String input)
+        {
+            
+            string[] expressionInfo = input.Split(" ");
+
+            return expressionInfo;
+        }
+
+        private bool IsOperation (string input)
+        {
+            string[] operations = { "+", "-", "*", "/"};
+            bool isOperation = false;
+
+            if (operations.Contains(input))
+            {
+                isOperation = true;
+            }
+
+            return isOperation;
+        }
+
+        private bool VerifyExpression(string input)
+        {
+            var expression = ExpressionParser(input);
+            if (    expression.Length != 3                  || 
+                    IsOperation(expression[1]) == false     ||
+                    VerifyNumericalInput(expression[0])==false ||
+                    VerifyNumericalInput(expression[2]) == false
+                )
+            {
+                return false;
+            }
+            //checking for dividing by 0
+            if(expression[1].Equals("/")&& !calculator.CanDivideBy(float.Parse(expression[2])))
+            {
+                return false;
+            }
+
+            else { return true; }
+        }
+
+        public float Calculate (string[] expressionInfo)
+        {
+            float result;
+            string operation = expressionInfo[1];
+            float num1 = float.Parse(expressionInfo[0]);
+            float num2 = float.Parse(expressionInfo[2]);
+
+            if (operation.Equals("+"))
+            {
+                result = calculator.Add(num1, num2);
+
+            }
+            else if (operation.Equals("-"))
+            {
+                result = calculator.Subtract(num1, num2);
+            }
+            else if (operation.Equals("*"))
+            {
+                result = calculator.Multiply(num1, num2);
+            }
+            else { result = calculator.Divide(num1, num2); };
+
+            return result;
+        }
+
 
     }
 }
