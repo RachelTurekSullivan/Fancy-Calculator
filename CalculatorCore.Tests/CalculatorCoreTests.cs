@@ -52,7 +52,7 @@ namespace CalculatorCore.Tests
             var input = "48 pl8";
             Result results = calc.Evaluate(input,"");
             Assert.AreEqual("error", results.result);
-            Assert.AreEqual("The expression " + input + " was not valid. Please enter a valid binomial expression in the form '6.9 + 5': ", results.message);
+            Assert.AreEqual("The expression " + input + " was not valid. Please enter a valid expression in the form '6.9 + 5' or - 8: ", results.message);
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace CalculatorCore.Tests
             var input = "48 + y";
             Result results = calc.Evaluate(input, "");
             Assert.AreEqual("error", results.result);
-            Assert.AreEqual("y is not a valid number. Please enter a valid binomial expression in the form '6.9 + 5': ", results.message);
+            Assert.AreEqual("y is not a valid number. Please enter a valid expression in the form '6.9 + 5' or - 8: ", results.message);
         }
 
         [TestMethod]
@@ -70,18 +70,38 @@ namespace CalculatorCore.Tests
             var input = "36 plus 7";
             Result results = calc.Evaluate(input, "");
             Assert.AreEqual("error", results.result);
-            Assert.AreEqual("plus is not a valid operation. Valid operators are { + - * / }. Please enter a valid binomial expression in the form '6.9 + 5':", results.message);
+            Assert.AreEqual("plus is not a valid operation. Valid operators are { + - * / }. Please enter a valid expression in the form '6.9 + 5' or - 8: ", results.message);
         }
 
         [TestMethod]
         public void OperatorAndNum2OnlyWorks()
         {
             var input = "+ 7";
-            var previousResult = "23";
-            Result results = calc.Evaluate(input, previousResult);
+            
+            Result results = calc.Evaluate(input, "23");
             
             Assert.AreEqual("30", results.result);
         }
+
+        [TestMethod]
+        public void OperatorAndNum2OnlyWorksAsFirstInput()
+        {
+            var input = "+ 7";
+            Result results = calc.Evaluate(input, "");
+
+            Assert.AreEqual("7", results.result);
+        }
+
+        [TestMethod]
+        public void SetPreviousResultWorks()
+        {
+            calc.SetPreviousResult("668");
+            string num = calc.GetPreviousResult();
+
+            Assert.AreEqual("668", num);
+        }
+
+
 
         //[TestMethod]
         //public void PreviousMethodStored()

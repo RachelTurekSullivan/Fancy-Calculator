@@ -6,16 +6,15 @@ namespace CalculatorCore
 {
     public class Calculator
     {
-
-        DataService dataService;
-        List<HistoryEntry> history;
-        string prevExpression;
+        readonly DataService DataService;
+        readonly List<HistoryEntry> History;
+        string PrevExpression;
 
         public Calculator()
         {
-            dataService = new DataService();
-            history = new List<HistoryEntry>();
-            prevExpression = "0";
+            DataService = new DataService();
+            History = new List<HistoryEntry>();
+            PrevExpression = "0";
         }
 
         //private float prevExpression;
@@ -23,12 +22,12 @@ namespace CalculatorCore
         {
 
             //later this can be sent in from test
-            if(null != prevEx)
+            if(null != prevEx && !prevEx.Equals(""))
             {
-                prevExpression = prevEx;
+                PrevExpression = prevEx;
             }
             
-            var verifiedInput = dataService.VerifyInput(prevExpression, input);
+            var verifiedInput = DataService.VerifyInput(PrevExpression, input);
 
             if (verifiedInput[0].Equals("error")) {
                 return new Result(verifiedInput[0], verifiedInput[1]);
@@ -48,7 +47,7 @@ namespace CalculatorCore
                 if(verifiedInput.Length == 2)
                 {
                     operation = verifiedInput[1];
-                    foreach(var entry in history)
+                    foreach(var entry in History)
                     {
                         if (entry.Operation.Equals(operation))
                         {
@@ -59,7 +58,7 @@ namespace CalculatorCore
                 //history with no filter
                 else
                 {
-                    displayList = history;
+                    displayList = History;
                 }
 
 
@@ -77,12 +76,12 @@ namespace CalculatorCore
             }
 
             else {
-                Result result = new Result(dataService.Calculate(verifiedInput).ToString(), "success");
+                Result result = new Result(DataService.Calculate(verifiedInput).ToString(), "success");
 
-                bool usedPreviousResult = dataService.verificationService.IsOperation(input.Substring(0,1));
+                bool usedPreviousResult = DataService.verificationService.IsOperation(input.Substring(0,1));
 
-                history.Add(new HistoryEntry(float.Parse(verifiedInput[0]), float.Parse(verifiedInput[2]), verifiedInput[1], result, usedPreviousResult));
-                prevExpression = result.result;
+                History.Add(new HistoryEntry(float.Parse(verifiedInput[0]), float.Parse(verifiedInput[2]), verifiedInput[1], result, usedPreviousResult));
+                PrevExpression = result.result;
                 return result;
             }
         }
@@ -91,7 +90,11 @@ namespace CalculatorCore
 
         public string GetPreviousResult()
         {
-            return prevExpression;
+            return PrevExpression;
+        }
+        public void SetPreviousResult(string input)
+        {
+            this.PrevExpression = input;
         }
     }
 }

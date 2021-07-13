@@ -36,36 +36,37 @@ namespace CalculatorCore
             string[] parsedInput;
             parsedInput = ExpressionParser(input);
 
+            //Error Messages
             if (verificationService.VerifyExpression(parsedInput) == false)
             {
                 if (verificationService.VerifyNumericalInput(parsedInput[0]) == false)
                 {
-                    return new string[] { "error", parsedInput[0] + " is not a valid number. Please enter a valid binomial expression in the form '6.9 + 5': " };
+                    return new string[] { "error", parsedInput[0] + " is not a valid number. Please enter a valid expression in the form '6.9 + 5' or - 8: " };
                 }
-                if (verificationService.VerifyNumericalInput(parsedInput[2]) == false)
+                if (parsedInput.Length>2 && verificationService.VerifyNumericalInput(parsedInput[2]) == false)
                 {
-                    return new string[] { "error", parsedInput[2] + " is not a valid number. Please enter a valid binomial expression in the form '6.9 + 5': " };
+                    return new string[] { "error", parsedInput[2] + " is not a valid number. Please enter a valid expression in the form '6.9 + 5' or - 8: " };
                 }
 
-                if (verificationService.IsOperation(parsedInput[1]) == false)
+                if (parsedInput.Length > 2 && verificationService.IsOperation(parsedInput[1]) == false)
                 {
-                    return new string[] { "error", parsedInput[1] + " is not a valid operation. Valid operators are { + - * / }. Please enter a valid binomial expression in the form '6.9 + 5':" };
+                    return new string[] { "error", parsedInput[1] + " is not a valid operation. Valid operators are { + - * / }. Please enter a valid expression in the form '6.9 + 5' or - 8: " };
                 }
                 if (parsedInput[1].Equals("/") && !CalculatorService.CanDivideBy(float.Parse(parsedInput[2])))
                 {
 
-                    return new string[] { "error", "Cannot divide by zero. Please enter a valid binomial expression in the form '6.9 + 5': " };
+                    return new string[] { "error", "Cannot divide by zero. Please enter a valid expression in the form '6.9 + 5' or - 8: " };
 
                 }
                 else { 
-                return new string[] { "error", "The expression " + input + " was not valid. Please enter a valid binomial expression in the form '6.9 + 5': " };
+                return new string[] { "error", "The expression " + input + " was not valid. Please enter a valid expression in the form '6.9 + 5' or - 8: " };
                 }
             }
 
 
             //this will only happen if the first input is an operator and the second is a number becuase it's been verified already
-            if (parsedInput.Length == 2)
-            {
+            if (parsedInput.Length == 2 && verificationService.IsOperation(parsedInput[0]) && verificationService.VerifyNumericalInput(parsedInput[1])) 
+            { 
                 var tempList = new List<String>();
 
                 tempList.Add(prevExpression);
