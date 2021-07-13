@@ -12,13 +12,15 @@ namespace CalculatorCore
         public float Num2 { get; set; }
         public Result Result { get; set; }
         public string Operation { get; set; }
+        public bool UsedPrevResult { get; set; }
     
-        public HistoryEntry(float num1, float num2, string operation, Result result)
+        public HistoryEntry(float num1, float num2, string operation, Result result, bool usedPrevResult)
         {
             Num1 = num1;
             Num2 = num2;
             Operation = operation;
             Result = result;
+            UsedPrevResult = usedPrevResult;
         }
 
         override

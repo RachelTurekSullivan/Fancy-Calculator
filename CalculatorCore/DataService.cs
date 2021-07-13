@@ -11,7 +11,7 @@ namespace CalculatorCore
 
         CalculatorService calculator = new CalculatorService();
 
-        public string[] VerifyInput(float prevExpression, string calcInput)
+        public string[] VerifyInput(string prevExpression, string calcInput)
         {
             //Console.WriteLine("Enter an binomial expression to evaluate:");
             string input = calcInput;
@@ -20,16 +20,19 @@ namespace CalculatorCore
             {
                 return new string[] {input.ToLower()};
             }
+            if (input.ToLower().Contains("history ") && ContainsOperation(input))
+            {
+                return ExpressionParser(input);
+            }
             if (input.ToLower().Equals("history"))
             {
-                return new string[] { input.ToLower() };
+                return new string[] { input.ToLower() };   
             }
-
             if (VerifyExpression(input) == false)
             {
                return new string[] { "error", "The expression " + input + " was not valid. Please enter a valid binomial expression in the form '6.9 + 5': "};
-                
             }
+            
 
             string[] verifiedInput;
             verifiedInput = ExpressionParser(input);
@@ -39,12 +42,18 @@ namespace CalculatorCore
             {
                 var tempList = new List<String>();
 
-                tempList.Add(prevExpression.ToString());
+                tempList.Add(prevExpression);
                 tempList.Add(verifiedInput[0]);
                 tempList.Add(verifiedInput[1]);
                 verifiedInput = tempList.ToArray();
             }
 
+            if (verifiedInput[1].Equals("/") && !calculator.CanDivideBy(float.Parse(verifiedInput[2])))
+            {
+
+                return new string[] { "error", "Cannot divide by zero. Please enter a valid binomial expression in the form '6.9 + 5': " };
+
+            }
 
             return verifiedInput;
         }
@@ -75,7 +84,7 @@ namespace CalculatorCore
             return expressionInfo;
         }
 
-        private bool IsOperation (string input)
+        public bool IsOperation (string input)
         {
             string[] operations = { "+", "-", "*", "/"};
             bool isOperation = false;
@@ -87,6 +96,22 @@ namespace CalculatorCore
 
             return isOperation;
         }
+
+        private bool ContainsOperation(string input)
+        {
+    
+            foreach(var c in input.ToArray())
+            {
+                if (IsOperation(c.ToString()))
+                {
+                    return true;
+                }
+            }
+            return false;
+            
+        }
+
+
 
         private bool VerifyExpression(string input)
         {
@@ -108,12 +133,7 @@ namespace CalculatorCore
                     return false; 
                 }
             }
-            //checking for dividing by 0
-            if(expression[1].Equals("/")&& !calculator.CanDivideBy(float.Parse(expression[2])))
-            {
-                return false;
-            }
-
+            
             else { return true; }
         }
 

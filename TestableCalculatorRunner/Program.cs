@@ -11,6 +11,7 @@ namespace TestableCalculatorRunner
         {
             var calculator = new Calculator();
             var run = true;
+            string prevResult = "0";
 
             while (run)
             {
@@ -18,7 +19,7 @@ namespace TestableCalculatorRunner
 
                 var input = Console.ReadLine();
 
-                Result output = calculator.Evaluate(input);
+                Result output = calculator.Evaluate(input, prevResult);
 
                 if (output.result.Equals("exit"))
                 {
@@ -44,6 +45,7 @@ namespace TestableCalculatorRunner
                 else
                 {
                     Console.WriteLine("Result: " + output.result);
+                    prevResult = output.result;
                 }
             }
 
