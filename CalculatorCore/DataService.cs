@@ -9,7 +9,7 @@ namespace CalculatorCore
     public class DataService
     {
 
-        CalculatorService calculator = new CalculatorService();
+        //CalculatorService calculator = new CalculatorService();
 
         public string[] VerifyInput(string prevExpression, string calcInput)
         {
@@ -28,6 +28,7 @@ namespace CalculatorCore
             {
                 return new string[] { input.ToLower() };   
             }
+            
             if (VerifyExpression(input) == false)
             {
                return new string[] { "error", "The expression " + input + " was not valid. Please enter a valid binomial expression in the form '6.9 + 5': "};
@@ -48,7 +49,7 @@ namespace CalculatorCore
                 verifiedInput = tempList.ToArray();
             }
 
-            if (verifiedInput[1].Equals("/") && !calculator.CanDivideBy(float.Parse(verifiedInput[2])))
+            if (verifiedInput[1].Equals("/") && !CalculatorService.CanDivideBy(float.Parse(verifiedInput[2])))
             {
 
                 return new string[] { "error", "Cannot divide by zero. Please enter a valid binomial expression in the form '6.9 + 5': " };
@@ -146,18 +147,18 @@ namespace CalculatorCore
 
             if (operation.Equals("+"))
             {
-                result = calculator.Add(num1, num2);
+                result = CalculatorService.Add(num1, num2);
 
             }
             else if (operation.Equals("-"))
             {
-                result = calculator.Subtract(num1, num2);
+                result = CalculatorService.Subtract(num1, num2);
             }
             else if (operation.Equals("*"))
             {
-                result = calculator.Multiply(num1, num2);
+                result = CalculatorService.Multiply(num1, num2);
             }
-            else { result = calculator.Divide(num1, num2); };
+            else { result = CalculatorService.Divide(num1, num2); };
 
             return result;
         }

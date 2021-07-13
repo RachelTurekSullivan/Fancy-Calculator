@@ -54,5 +54,14 @@ namespace CalculatorCore.Tests
             Assert.AreEqual("error", results.result);
             Assert.AreEqual("The expression " + input + " was not valid. Please enter a valid binomial expression in the form '6.9 + 5': ", results.message);
         }
+
+        [TestMethod]
+        public void BadOperatorErrorMessage()
+        {
+            var input = "36 plus 7";
+            Result results = calc.Evaluate(input, "");
+            Assert.AreEqual("error", results.result);
+            Assert.AreEqual("The expression " + input + " was not valid. Please enter a valid binomial expression in the form '6.9 + 5': ", results.message);
+        }
     }
 }
