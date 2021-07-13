@@ -79,12 +79,19 @@ namespace CalculatorCore
             else {
                 Result result = new Result(dataService.Calculate(verifiedInput).ToString(), "success");
 
-                bool usedPreviousResult = dataService.IsOperation(input.Substring(0,1));
+                bool usedPreviousResult = dataService.verificationService.IsOperation(input.Substring(0,1));
 
                 history.Add(new HistoryEntry(float.Parse(verifiedInput[0]), float.Parse(verifiedInput[2]), verifiedInput[1], result, usedPreviousResult));
                 prevExpression = result.result;
                 return result;
             }
+        }
+
+       
+
+        public string GetPreviousResult()
+        {
+            return prevExpression;
         }
     }
 }

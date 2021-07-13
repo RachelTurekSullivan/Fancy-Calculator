@@ -8,8 +8,12 @@ namespace CalculatorCore
 {
     public class DataService
     {
-
+        public VerificationService verificationService;
         //CalculatorService calculator = new CalculatorService();
+        public DataService()
+        {
+            verificationService = new VerificationService();
+        }
 
         public string[] VerifyInput(string prevExpression, string calcInput)
         {
@@ -20,7 +24,7 @@ namespace CalculatorCore
             {
                 return new string[] {input.ToLower()};
             }
-            if (input.ToLower().Contains("history ") && ContainsOperation(input))
+            if (input.ToLower().Contains("history ") && verificationService.ContainsOperation(input))
             {
                 return ExpressionParser(input);
             }
@@ -28,55 +32,54 @@ namespace CalculatorCore
             {
                 return new string[] { input.ToLower() };   
             }
-            
-            if (VerifyExpression(input) == false)
-            {
-               return new string[] { "error", "The expression " + input + " was not valid. Please enter a valid binomial expression in the form '6.9 + 5': "};
-            }
-            
 
-            string[] verifiedInput;
-            verifiedInput = ExpressionParser(input);
+            string[] parsedInput;
+            parsedInput = ExpressionParser(input);
+
+            if (verificationService.VerifyExpression(parsedInput) == false)
+            {
+                if (verificationService.VerifyNumericalInput(parsedInput[0]) == false)
+                {
+                    return new string[] { "error", parsedInput[0] + " is not a valid number. Please enter a valid binomial expression in the form '6.9 + 5': " };
+                }
+                if (verificationService.VerifyNumericalInput(parsedInput[2]) == false)
+                {
+                    return new string[] { "error", parsedInput[2] + " is not a valid number. Please enter a valid binomial expression in the form '6.9 + 5': " };
+                }
+
+                if (verificationService.IsOperation(parsedInput[1]) == false)
+                {
+                    return new string[] { "error", parsedInput[1] + " is not a valid operation. Valid operators are { + - * / }. Please enter a valid binomial expression in the form '6.9 + 5':" };
+                }
+                if (parsedInput[1].Equals("/") && !CalculatorService.CanDivideBy(float.Parse(parsedInput[2])))
+                {
+
+                    return new string[] { "error", "Cannot divide by zero. Please enter a valid binomial expression in the form '6.9 + 5': " };
+
+                }
+                else { 
+                return new string[] { "error", "The expression " + input + " was not valid. Please enter a valid binomial expression in the form '6.9 + 5': " };
+                }
+            }
+
 
             //this will only happen if the first input is an operator and the second is a number becuase it's been verified already
-            if (verifiedInput.Length == 2)
+            if (parsedInput.Length == 2)
             {
                 var tempList = new List<String>();
 
                 tempList.Add(prevExpression);
-                tempList.Add(verifiedInput[0]);
-                tempList.Add(verifiedInput[1]);
-                verifiedInput = tempList.ToArray();
+                tempList.Add(parsedInput[0]);
+                tempList.Add(parsedInput[1]);
+                parsedInput = tempList.ToArray();
             }
 
-            if (verifiedInput[1].Equals("/") && !CalculatorService.CanDivideBy(float.Parse(verifiedInput[2])))
-            {
 
-                return new string[] { "error", "Cannot divide by zero. Please enter a valid binomial expression in the form '6.9 + 5': " };
-
-            }
-
-            return verifiedInput;
+            return parsedInput;
         }
 
 
-        private bool VerifyNumericalInput(string input)
-        {
-            if (input.Equals('0'))
-            {
-                return true;
-            }
-            else 
-            { 
-                var isNumber = float.TryParse(input, out _);
-                if (isNumber == true)
-                {
-                    return true;
-                }
-                else { return false; }
-            }
-        }
-
+       
         private string[] ExpressionParser(String input)
         {
             
@@ -85,58 +88,6 @@ namespace CalculatorCore
             return expressionInfo;
         }
 
-        public bool IsOperation (string input)
-        {
-            string[] operations = { "+", "-", "*", "/"};
-            bool isOperation = false;
-
-            if (operations.Contains(input))
-            {
-                isOperation = true;
-            }
-
-            return isOperation;
-        }
-
-        private bool ContainsOperation(string input)
-        {
-    
-            foreach(var c in input.ToArray())
-            {
-                if (IsOperation(c.ToString()))
-                {
-                    return true;
-                }
-            }
-            return false;
-            
-        }
-
-
-
-        private bool VerifyExpression(string input)
-        {
-            var expression = ExpressionParser(input);
-            if (    expression.Length != 3                  || 
-                    IsOperation(expression[1]) == false     ||
-                    VerifyNumericalInput(expression[0])==false ||
-                    VerifyNumericalInput(expression[2]) == false
-                )
-            {
-                //if the operation is using the previous result as num1
-                if (IsOperation(expression[0]) && VerifyNumericalInput(expression[1]))
-                {
-                    return true;
-                }
-
-                else 
-                {
-                    return false; 
-                }
-            }
-            
-            else { return true; }
-        }
 
         public float Calculate (string[] expressionInfo)
         {
