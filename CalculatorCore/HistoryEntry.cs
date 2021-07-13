@@ -8,10 +8,10 @@ namespace CalculatorCore
 {
     public class HistoryEntry
     {
-        float Num1 { get; set; }
-        float Num2 { get; set; }
-        Result Result { get; set; }
-        string Operation { get; set; }
+        public float Num1 { get; set; }
+        public float Num2 { get; set; }
+        public Result Result { get; set; }
+        public string Operation { get; set; }
     
         public HistoryEntry(float num1, float num2, string operation, Result result)
         {
@@ -24,9 +24,9 @@ namespace CalculatorCore
         override
         public string ToString()
         {
-            return string.Concat(Num1, " ", Operation, " ",Num2, " ", "=", " ", Result);
+            return string.Concat(Num1, " ", Operation, " ", Num2, " ", "=", " ", Result.result);
         }
 
-       
+    
     }
 }

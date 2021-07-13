@@ -1,17 +1,26 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CalculatorCore;
+using System.Collections.Generic;
 
 namespace CalculatorCore.Tests
 {
     [TestClass]
     public class CalculatorCoreTests
     {
-        Calculator calc = new Calculator();
+        Calculator calc;
+        List<HistoryEntry> history;
+
+        [TestInitialize]
+        public void InitializeTests()
+        {
+            calc = new Calculator();
+            List<HistoryEntry> history = new List<HistoryEntry>();
+        }
+        
 
         [TestMethod]
         public void AddTwoNumbers()
         {
-            
             Result results = calc.Evaluate("6 + 8");
             Assert.AreEqual("Result: 14", "Result: " + results.result);
         }

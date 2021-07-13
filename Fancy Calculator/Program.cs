@@ -35,7 +35,6 @@ namespace Fancy_Calculator
 
                 else
                 {
-                    
                     var result = dataService.Calculate(input);
                     history.Add(new Entry(float.Parse(input[0]), float.Parse(input[2]),input[1], result));
                     prevExpression = result;
