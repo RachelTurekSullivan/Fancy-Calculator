@@ -28,14 +28,11 @@ namespace CalculatorCore
 
             if (verifiedInput[0].Equals("history"))
             {
-                var displayTable = new ConsoleTable(" ", " " , " ", " ", " ");
+                var displayTable = new ConsoleTable( " ", " ", " ");
                 foreach (var entry in history)
                 {
-                    Console.WriteLine(entry.ToString());
-                    displayTable.AddRow(entry.Num1, entry.Operation, entry.Num2, "=", entry.Result.result);
-                   
+                    displayTable.AddRow(entry.Num1 + " " + entry.Operation + " " + entry.Num2, "=", entry.Result.result);
                 }
-                Console.WriteLine(displayTable);
                 displayTable.Configure(o => o.NumberAlignment = Alignment.Right).Write(Format.Minimal);
                 return new Result(verifiedInput[0], "What do you mean you don't like math??? You have so much HISTORY!");
             }
