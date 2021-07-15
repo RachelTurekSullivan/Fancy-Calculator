@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    
+    <h3 class="display-4" style="font-family:'Copperplate Gothic'">Calculatrice la plus Fantaisiste</h3>
+</div>
+
+<div style="height:5vh"></div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col justify-content-center">
+            
+            <form id="session-input" method="post" action="Calcualte" class="card-body">
+                <div class="col rounded" style="display:block; height:40vh; width:40vw; border-width:thick; border:solid; border-color:dimgray; background-color: #647568; padding:1vw; justify-content:center; align-items:center; padding:0;">
+                    
+                    <div id="calcHistory" style="   height:95%;
+                                                    width:100%;
+                                                    background-color: #647568;
+                                                    font-family: Courier New, Courier, monospace;
+                                                    font-weight: bolder;">
+                        @*<p><i>history will be injected here?</i></p>*@
+                    </div>
+                    <input type="text" id="calcInput" name="calcInput" style=  "color: #212722;
+                                                                                        background-color: #647568;
+                                                                                        font-family: Courier New, Courier, monospace;
+                                                                                        font-weight: bolder;
+                                                                                        border-top: #212722;
+                                                                                        border-width:thin;
+                                                                                        height:5%;
+                                                                                        width:100%;
+                                                                                        margin:0;
+                                                                                        display:block">
+                </div>
+                <br>
+                    <input type="submit" value="Calculer" class="btn-info btn-lg" />
+
+            </form>
+           
+        </div>
+    </div>
+</div>
