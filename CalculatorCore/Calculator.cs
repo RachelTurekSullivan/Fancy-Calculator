@@ -7,7 +7,7 @@ namespace CalculatorCore
     public class Calculator
     {
         public readonly DataService DataService;
-        readonly List<HistoryEntry> History;
+        public List<HistoryEntry> History;
         string PrevExpression;
 
         public Calculator()
@@ -52,6 +52,7 @@ namespace CalculatorCore
                         if (entry.Operation.Equals(operation))
                         {
                             displayList.Add(entry);
+                            History.Add(entry);
                         }
                     }
                 }
@@ -71,7 +72,10 @@ namespace CalculatorCore
                     }
                     displayTable.AddRow(prefix+entry.Num1 + " " + entry.Operation + " " + entry.Num2, "=", entry.Result.result);
                 }
+
                 displayTable.Configure(o => o.NumberAlignment = Alignment.Right).Write(Format.Minimal);
+
+                History = displayList;
                 return new Result(verifiedInput[0], "What do you mean you don't like math??? You have so much HISTORY!");
             }
 
@@ -86,7 +90,10 @@ namespace CalculatorCore
             }
         }
 
-               
+        public List<HistoryEntry> GetHistory()
+        {
+            return History;
+        }      
 
         public string GetPreviousResult()
         {

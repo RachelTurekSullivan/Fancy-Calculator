@@ -8,7 +8,7 @@ namespace FanciestWebCalculator.Models
     public class CalculatorStateModel
     {
         public CalculatorHistory History { get; set; }
-        public HistoryEntry CurrentEntry { get; set; }
+        public List<string> HistoryList { get; set; }
         public HistoryEntry PreviousEntry { get; set; }
 
         public bool HasHistory()
@@ -18,6 +18,18 @@ namespace FanciestWebCalculator.Models
                 return true;
             }
             else { return false; }
+        }
+
+        public bool HasHistoryList()
+        {
+            if(HistoryList !=null && HistoryList.Count > 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

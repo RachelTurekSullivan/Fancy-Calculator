@@ -16,39 +16,72 @@
         <div class="col justify-content-center">
             
             <form id="session-input" method="post" class="card-body">
-                <div class="col rounded" style="display:block; height:40vh; width:40vw; border-width:thick; border:solid; border-color:dimgray; background-color: #647568; padding:1vw; justify-content:center; align-items:center; padding:0;">
-                    
-                    <div id="calcHistory" style="   height:95%;
+                <div class="col rounded" style="background-color: #17a2b8;
+                                                height: 500px;
+                                                width: 400px;
+                                                padding: 5vh 5vw">
+                    <div class="col rounded border-info" style="display: block;
+                                                                height: 100%;
+                                                                width:100%;
+                                                                border: solid;
+                                                                padding: 15px;
+                                                                justify-content: center;
+                                                                align-items: center;">
+
+                        <div id="calcHistory" style="   height:90%;
                                                     width:100%;
-                                                    background-color: #647568;
+                                                    background-color:azure;
                                                     font-family: Courier New, Courier, monospace;
-                                                    font-weight: bolder;">
-                       
+                                                    font-weight: bolder;
+                                                    padding:15px">
 
-                        @if(@Model.HasHistory())
-                        {
-                            foreach(var entry in @Model.History.Entries)
+
+                            @if (@Model.PreviousEntry != null)
                             {
-                                <div>@entry.Expression.ToString() = @entry.Result</div>
-                            }
-                        }
-
-
-
+                                if (@Model.PreviousEntry.Result.Equals("history"))
+                                {
+                                    <p>--- History ---</p>
+                                    if (@Model.HistoryList != null && @Model.HistoryList.Count > 0)
+                                    {
+                                        foreach (var entry in @Model.HistoryList)
+                                        {
+                                            <p>@entry</p>
+                                        }
+                                    }
+                                }
+                                else if (Model.PreviousEntry.Result.ToLower().Equals("error"))
+                                {
+                                    <p>--- @Model.PreviousEntry.Result ---</p>
+                                    <p>@Model.PreviousEntry.Message</p>
+                                }
+                                else
+                                {
+                                    foreach (var entry in @Model.History.Entries)
+                                    {
+                                        if (!entry.Result.Equals("history") && !entry.Result.Equals("error"))
+                                        {
+                                            <div>@entry.Expression.ToString() = @entry.Result</div>
+                                        }
+                                    }
+                                }
+                             }
+                        </div>
+                        <div style="height: 1%; background-color:#17a2b8"> </div>
+                        <input type="text" id="calcInput" name="calcInput"  style="color: #212722;
+                                                                                    background-color:azure;
+                                                                                    font-family: Courier New, Courier, monospace;
+                                                                                    font-weight: bolder;
+                                                                                    font-size:large;
+                                                                                    height: 9%;
+                                                                                    width: 100%;
+                                                                                    border:none;
+                                                                                    margin: 0;
+                                                                                    display: block;
+                                                                                    padding:15px"/>
                     </div>
-                    <input type="text" id="calcInput" name="calcInput" style=  "color: #212722;
-                                                                                        background-color: #647568;
-                                                                                        font-family: Courier New, Courier, monospace;
-                                                                                        font-weight: bolder;
-                                                                                        border-top: #212722;
-                                                                                        border-width:thin;
-                                                                                        height:5%;
-                                                                                        width:100%;
-                                                                                        margin:0;
-                                                                                        display:block">
                 </div>
                 <br>
-                    <input type="submit" value="Calculer" class="btn-info btn-lg" />
+                <input type="submit" value="Calculer" class="btn-info btn-lg" />
 
             </form>
            

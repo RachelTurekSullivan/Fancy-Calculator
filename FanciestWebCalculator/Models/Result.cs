@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FanciestWebCalculator
+namespace FanciestWebCalculator.Models
 {
     public class Result
     {
@@ -17,5 +17,6 @@ namespace FanciestWebCalculator
             result = _result;
             message = _message;
         }
+
     }
 }

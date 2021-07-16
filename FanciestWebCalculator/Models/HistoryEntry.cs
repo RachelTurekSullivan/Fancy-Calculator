@@ -20,6 +20,18 @@ namespace FanciestWebCalculator.Models
             UsedPrevResult = usedPR;
         }
 
-            
+        override
+        public string ToString()
+        {
+            var modNum1 = Expression.Num1;
+            if (UsedPrevResult)
+            {
+                modNum1 = "_" + modNum1;
+            }
+            return string.Concat(modNum1 + " " + Expression.Operation+ " ", Expression.Num2, " ", "=", " ", Result);
+        }
+
+
+
     }
 }
