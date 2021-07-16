@@ -9,5 +9,10 @@ namespace FanciestWebCalculator.Models
     {
         public List<HistoryEntry> Entries { get; set; }
         
+        public CalculatorHistory(List<HistoryEntry> historyEntries)
+        {
+            Entries = historyEntries;
+        }
+
     }
 }

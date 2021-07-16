@@ -15,7 +15,7 @@ namespace CalculatorCore
             verificationService = new VerificationService();
         }
 
-        public string[] VerifyInput(string prevExpression, string calcInput)
+        public string[] ParseInput(string prevExpression, string calcInput)
         {
             //Console.WriteLine("Enter an binomial expression to evaluate:");
             string input = calcInput;

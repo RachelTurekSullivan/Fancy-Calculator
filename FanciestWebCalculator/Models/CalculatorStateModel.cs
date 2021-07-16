@@ -11,5 +11,13 @@ namespace FanciestWebCalculator.Models
         public HistoryEntry CurrentEntry { get; set; }
         public HistoryEntry PreviousEntry { get; set; }
 
+        public bool HasHistory()
+        {
+            if (History != null && History.Entries != null)
+            {
+                return true;
+            }
+            else { return false; }
+        }
     }
 }

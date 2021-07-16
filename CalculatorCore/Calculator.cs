@@ -6,7 +6,7 @@ namespace CalculatorCore
 {
     public class Calculator
     {
-        readonly DataService DataService;
+        public readonly DataService DataService;
         readonly List<HistoryEntry> History;
         string PrevExpression;
 
@@ -27,7 +27,7 @@ namespace CalculatorCore
                 PrevExpression = prevEx;
             }
             
-            var verifiedInput = DataService.VerifyInput(PrevExpression, input);
+            var verifiedInput = DataService.ParseInput(PrevExpression, input);
 
             if (verifiedInput[0].Equals("error")) {
                 return new Result(verifiedInput[0], verifiedInput[1]);
@@ -86,7 +86,7 @@ namespace CalculatorCore
             }
         }
 
-       
+               
 
         public string GetPreviousResult()
         {
@@ -96,5 +96,7 @@ namespace CalculatorCore
         {
             this.PrevExpression = input;
         }
+        
+        
     }
 }

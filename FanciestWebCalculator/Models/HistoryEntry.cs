@@ -10,14 +10,16 @@ namespace FanciestWebCalculator.Models
         public Expression Expression { get; }
         public string Result { get; }
         public string Message { get; }
+        public bool UsedPrevResult { get; set; }
 
-        public HistoryEntry(string result, string message, Expression expression)
+        public HistoryEntry(string result, string message, Expression expression, bool usedPR)
         {
             Result = result;
             Message = message;
             Expression = expression;
+            UsedPrevResult = usedPR;
         }
 
-
+            
     }
 }

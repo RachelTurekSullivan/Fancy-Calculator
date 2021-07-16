@@ -18,6 +18,9 @@ namespace FanciestWebCalculator.Models
             Operation = operation;
         }
 
-
+        public override string ToString()
+        {
+            return Num1 + " " + Operation + " " + Num2;
+        }
     }
 }
